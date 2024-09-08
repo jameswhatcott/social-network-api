@@ -1,26 +1,31 @@
 const router = require('express').Router();
-const Thought = require('../../models/Thought');
+const {
+  getThoughts,
+  getSingleThought,
+  createThought,
+  updateThought,
+  deleteThought,
+  addReaction,
+  removeReaction
+} = require('../../controllers/thoughts');
 
-// Get all thoughts
-router.get('/', async (req, res) => {
-    try {
-        const thoughts = await Thought.find();
-        res.json(thoughts);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
+// Route to GET all thoughts and POST a new thought
+router.route('/')
+  .get(getThoughts)        // Get all thoughts
+  .post(createThought);    // Create a new thought
 
-// Create a new thought
-router.post('/', async (req, res) => {
-    try {
-        const thought = await Thought.create(req.body);
-        res.json(thought);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
+// Route to GET, PUT, DELETE a single thought by ID
+router.route('/:thoughtId')
+  .get(getSingleThought)   // Get a single thought by ID
+  .put(updateThought)      // Update a thought by ID
+  .delete(deleteThought);  // Delete a thought by ID
 
-// Additional thought routes...
+// Route to POST a reaction to a thought
+router.route('/:thoughtId/reactions')
+  .post(addReaction);      // Add a reaction to a thought
+
+// Route to DELETE a reaction by its reactionId
+router.route('/:thoughtId/reactions/:reactionId')
+  .delete(removeReaction);  // Remove a reaction from a thought
 
 module.exports = router;

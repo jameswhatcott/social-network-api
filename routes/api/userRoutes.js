@@ -1,26 +1,7 @@
 const router = require('express').Router();
-const User = require('../../models/User');
+const { getUsers, getUserById } = require('../../controllers/users');
 
-// Get all users
-router.get('/', async (req, res) => {
-    try {
-        const users = await User.find().populate('friends').populate('thoughts');
-        res.json(users);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
+router.route('/').get(getUsers);  // Example route to get all users
+router.route('/:id').get(getUserById);  // Example route to get a user by ID
 
-// Create a new user
-router.post('/', async (req, res) => {
-    try {
-        const user = await User.create(req.body);
-        res.json(user);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
-
-// Additional user routes can go here...
-
-module.exports = router;
+module.exports = router;  // Export the router, not an object

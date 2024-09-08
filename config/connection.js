@@ -6,9 +6,7 @@ const connectionString = process.env.MONGODB_URI || 'mongodb://localhost:27017/s
 // Connect to MongoDB
 mongoose.connect(connectionString, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
+    useUnifiedTopology: true
 });
 
 // Log the connection status
